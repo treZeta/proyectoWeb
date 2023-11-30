@@ -1,23 +1,9 @@
 <template>
   <n-space style="padding-top: 2em" justify="center">
-    <n-p> Aqui puedes administrar los vuelos de la aerolinea </n-p>
+    <n-p> Aqui puedes administrar los vuelos activos </n-p>
   </n-space>
-  <n-space style="padding: 24px" justify="start">
-    <n-space justify="end">
-      <n-form ref="formRef" inline :label-width="80">
-        <n-form-item label="Name" path="user.name">
-          <n-select
-            v-model:value="model.selectValue"
-            placeholder="Select"
-            :options="generalOptions"
-          />
-        </n-form-item>
-        <n-form-item label="Name" path="user.name">
-          <n-input v-model:value="filter" placeholder="Input Name" />
-        </n-form-item>
-      </n-form>
-      <n-button @click="createPlane" type="primary"> + Crear </n-button>
-    </n-space>
+  <n-space style="padding: 24px" justify="end">
+    <n-button @click="createFlight" type="primary"> + Crear </n-button>
   </n-space>
   <n-layout embedded content-style="padding: 24px;">
     <n-card>
@@ -27,7 +13,7 @@
         bordered
         :single-line="false"
         :columns="columns"
-        :data="data"
+        :data="store.flights"
         :pagination="pagination"
       />
     </n-card>
@@ -36,57 +22,27 @@
 
 <script setup>
 import { h } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
-import {
-  NButton,
-  NDataTable,
-  NSpace,
-  NCard,
-  NLayout,
-  NImage,
-  NInput,
-  NForm,
-  NFormItem,
-  NSelect
-} from 'naive-ui'
+import { useRouter } from 'vue-router'
+import { NButton, NDataTable, NSpace, NCard, NLayout } from 'naive-ui'
+import { useCounterStore } from '@/stores/planesStore.js'
 
 const router = useRouter()
 
-const filter = ref('')
-
-const data = [
-  {
-    id: 'HK9816',
-    modelo: 'Boeing 737-400'
-  },
-  {
-    id: 'HK1523X',
-    modelo: 'Boeing 737-400'
-  },
-  {
-    id: 'HK2208P',
-    modelo: 'Boeing 737-400'
-  },
-  {
-    id: 'HK0912',
-    modelo: 'Embraer 195-E2'
-  },
-  {
-    id: 'HK0471',
-    modelo: 'Embraer 195-E2'
-  },
-  {
-    id: 'HK1323',
-    modelo: 'Boeing 737-400'
-  }
-]
+const store = useCounterStore();
 
 const pagination = {
   pageSize: 10
 }
 
-const createPlane = () => {
-  router.push('/backoffice/flota/aviones/crear')
+const createFlight = () => {
+  // router.push('/backoffice/aeropuertos/crear')
+  store.createFlight({
+      id: '230',
+      origin: 'MDE',
+      destination: 'BAQ',
+      departure: '22/11/23 - 23:39',
+      arrival: '22/11/23 - 01:57'
+    })
 }
 
 const deletePlane = (row) => {
@@ -104,8 +60,20 @@ const createColumns = ({ updatePlane, deletePlane }) => {
       key: 'id'
     },
     {
-      title: 'Modelo',
-      key: 'modelo'
+      title: 'Origen',
+      key: 'origin'
+    },
+    {
+      title: 'Destino',
+      key: 'destination'
+    },
+    {
+      title: 'Hora salida',
+      key: 'departure'
+    },
+    {
+      title: 'Hora llegada',
+      key: 'arrival'
     },
     {
       title: 'Acciones',
@@ -113,33 +81,23 @@ const createColumns = ({ updatePlane, deletePlane }) => {
       render(row) {
         return [
           h(
-            RouterLink,
+            NButton,
             {
-              to: '/flota/aviones/crear'
+              type: 'warning',
+              style: {
+                'margin-right': '1em'
+              },
+              onClick: () => deletePlane(row)
             },
-            [
-              h(
-                NButton,
-                {
-                  type: 'primary',
-                  secondary: 'true',
-                  onClick: () => editPlane(row),
-                  style: {
-                    'margin-right': '1em'
-                  }
-                },
-                { default: () => 'Editar' }
-              )
-            ]
+            { default: () => 'Posponer' }
           ),
           h(
             NButton,
             {
               type: 'primary',
-              ghost: 'true',
               onClick: () => deletePlane(row)
             },
-            { default: () => 'Eliminar' }
+            { default: () => 'Cancelar' }
           )
         ]
       }

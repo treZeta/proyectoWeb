@@ -41,7 +41,15 @@ const router = createRouter({
         {
           path: '/backoffice/vuelos',
           name: 'backoffice/vuelos',
-          component: () => import('@/views/FlightsView.vue')
+          redirect: { name: 'backoffice/vuelos/lista' },
+          component: () => import('@/views/FlightsView.vue'),
+          children: [
+            {
+              path: '/backoffice/vuelos/lista',
+              name: 'backoffice/vuelos/lista',
+              component: () => import('@/components/flights/FlightsListComponent.vue')
+            }
+          ]
         },
         {
           path: '/backoffice/analiticas',
