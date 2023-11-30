@@ -66,15 +66,15 @@ export const usePlanesStore = defineStore('planesStore', () => {
   const flights = ref([
     {
       id: '313',
-      origin: 'MDE',
-      destination: 'BOG',
+      origin: { valor: 'MDE' },
+      destination: { valor: 'BOG' },
       departure: '12/11/23 - 03:09',
       arrival: '12/11/23 - 04:20'
     },
     {
       id: '961',
-      origin: 'BOG',
-      destination: 'BAQ',
+      origin: { valor: 'BOG' },
+      destination: { valor: 'BAQ' },
       departure: '14/11/23 - 23:39',
       arrival: '15/11/23 - 01:57'
     }
@@ -93,19 +93,19 @@ export const usePlanesStore = defineStore('planesStore', () => {
   //Aiports
   const airports = ref([
     {
-      id: 'MDE',
+      id: { valor: 'MDE' },
       nombre: 'Jose Maria Cordova',
       ubicacion: 'Colombia, Antioquia, Medellín',
       imagen: 'https://s28477.pcdn.co/wp-content/uploads/2020/05/MDE_1-984x554.jpg'
     },
     {
-      id: 'BOG',
+      id: { valor: 'BOG' },
       nombre: 'El dorado',
       ubicacion: 'Colombia, Cundinamarca, Bogota',
       imagen: 'https://upload.wikimedia.org/wikipedia/commons/9/96/El-dorado-from-air.jpg'
     },
     {
-      id: 'BAQ',
+      id: { valor: 'BAQ' },
       nombre: 'Ernesto Cortissoz',
       ubicacion: 'Colombia, Atlantico, Barranquilla',
       imagen:
@@ -114,6 +114,12 @@ export const usePlanesStore = defineStore('planesStore', () => {
   ])  
   const createAirport = (airport) => {
     airports.value.push(airport)
+  }
+  const editAirport = (modifiedAirport, airportId) => {
+    let airport = airports.value.filter((ap) => ap.id === airportId)[0]
+    airport.nombre = modifiedAirport.nombre
+    airport.ubicacion = modifiedAirport.ubicacion
+    airport.imagen = modifiedAirport.imagen
   }
 
   return {
@@ -127,6 +133,7 @@ export const usePlanesStore = defineStore('planesStore', () => {
     createAirport,
     createPlane,
     createPlaneModel,
+    editAirport,
     editPlaneModel,
     changeFlightDate
   }

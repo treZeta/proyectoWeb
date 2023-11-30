@@ -24,7 +24,7 @@ const router = createRouter({
             {
               path: '/backoffice/aeropuertos/lista',
               name: 'backoffice/aeropuertos/lista',
-              component: import('../components/airports/AirportsListComponent.vue'),
+              component: import('../components/airports/AirportsListComponent.vue')
             },
             {
               path: '/backoffice/aeropuertos/crear',
@@ -32,8 +32,8 @@ const router = createRouter({
               component: import('../components/airports/CrudAirportComponent.vue')
             },
             {
-              path: '/backoffice/aeropuertos/editar',
-              name: 'backoffice/aeropuertos/editar/:id',
+              path: '/backoffice/aeropuertos/editar/:id',
+              name: '/backoffice/aeropuertos/editar',
               component: import('../components/airports/CrudAirportComponent.vue')
             }
           ]
@@ -112,7 +112,7 @@ const router = createRouter({
           ]
         }
       ]
-    },
+    }
   ]
 })
 
