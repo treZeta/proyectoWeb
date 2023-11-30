@@ -13,7 +13,7 @@
         bordered
         :single-line="false"
         :columns="columns"
-        :data="data"
+        :data="store.planeModels"
         :pagination="pagination"
       />
     </n-card>
@@ -24,23 +24,11 @@
 import { h } from 'vue';
 import { RouterLink, useRouter } from 'vue-router'
 import { NButton, NDataTable, NSpace, NCard, NLayout, NImage } from 'naive-ui'
+import { useCounterStore } from '@/stores/planesStore.js'
+
+const store = useCounterStore();
 
 const router = useRouter();
-
-const data = [
-  {
-    nombre: 'Boeing 737-400',
-    asientos: '90',
-    imagen:
-      'https://images.aircharterservice.com/global/aircraft-guide/group-charter/boeing-b737-400-800-900-1.jpg'
-  },
-  {
-    nombre: 'Embraer 195-E2',
-    asientos: '40',
-    imagen:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Wider%C3%B8e%2C_LN-WEA%2C_Embraer_E190-E2_%40_HEL.jpg/1200px-Wider%C3%B8e%2C_LN-WEA%2C_Embraer_E190-E2_%40_HEL.jpg'
-  }
-]
 
 const pagination = {
   pageSize: 10
@@ -58,7 +46,7 @@ const editPlane = (row) => {
   console.log(`editing.. ${row}`)
   //wa
 }
-const createColumns = ({ updatePlane, deletePlane }) => {
+const createColumns = () => {
   return [
     {
       title: 'Nombre',

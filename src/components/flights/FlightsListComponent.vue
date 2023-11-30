@@ -35,14 +35,7 @@ const pagination = {
 }
 
 const createFlight = () => {
-  // router.push('/backoffice/aeropuertos/crear')
-  store.createFlight({
-      id: '230',
-      origin: 'MDE',
-      destination: 'BAQ',
-      departure: '22/11/23 - 23:39',
-      arrival: '22/11/23 - 01:57'
-    })
+  router.push('/backoffice/aeropuertos/crear')
 }
 
 const deletePlane = (row) => {

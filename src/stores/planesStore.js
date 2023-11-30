@@ -121,6 +121,9 @@ export const usePlanesStore = defineStore('planesStore', () => {
     airport.ubicacion = modifiedAirport.ubicacion
     airport.imagen = modifiedAirport.imagen
   }
+  const findAirport = (airportId) => {
+    return airports.value.filter((airport) => airport.id === airportId)
+  }
 
   return {
     planes,
@@ -135,6 +138,7 @@ export const usePlanesStore = defineStore('planesStore', () => {
     createPlaneModel,
     editAirport,
     editPlaneModel,
-    changeFlightDate
+    changeFlightDate,
+    findAirport
   }
 })
