@@ -46,7 +46,7 @@ const editPlane = (row) => {
   console.log(`editing.. ${row}`)
   //wa
 }
-const createColumns = ({ updatePlane, deletePlane }) => {
+const createColumns = () => {
   return [
     {
       title: 'Identificador',
@@ -55,43 +55,6 @@ const createColumns = ({ updatePlane, deletePlane }) => {
     {
       title: 'Modelo',
       key: 'modelo.valor'
-    },
-    {
-      title: 'Acciones',
-      key: 'acciones',
-      render(row) {
-        return [
-          h(
-            RouterLink,
-            {
-              to: '/flota/aviones/crear'
-            },
-            [
-              h(
-                NButton,
-                {
-                  type: 'primary',
-                  secondary: 'true',
-                  onClick: () => editPlane(row),
-                  style: {
-                    'margin-right': '1em'
-                  }
-                },
-                { default: () => 'Editar' }
-              )
-            ]
-          ),
-          h(
-            NButton,
-            {
-              type: 'primary',
-              ghost: 'true',
-              onClick: () => deletePlane(row)
-            },
-            { default: () => 'Eliminar' }
-          )
-        ]
-      }
     }
   ]
 }

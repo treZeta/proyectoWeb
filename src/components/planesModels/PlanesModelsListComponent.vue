@@ -91,15 +91,6 @@ const createColumns = () => {
               )
             ]
           ),
-          h(
-            NButton,
-            {
-              type: 'primary',
-              ghost: 'true',
-              onClick: () => deletePlane(row)
-            },
-            { default: () => 'Eliminar' }
-            )
           ]
       }
     }

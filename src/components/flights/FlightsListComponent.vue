@@ -24,11 +24,11 @@
 import { h } from 'vue'
 import { useRouter } from 'vue-router'
 import { NButton, NDataTable, NSpace, NCard, NLayout } from 'naive-ui'
-import { useCounterStore } from '@/stores/planesStore.js'
+import { usePlanesStore } from '@/stores/planesStore.js'
+
+const store = usePlanesStore();
 
 const router = useRouter()
-
-const store = useCounterStore();
 
 const pagination = {
   pageSize: 10
@@ -46,7 +46,7 @@ const editPlane = (row) => {
   console.log(`editing.. ${row}`)
   //wa
 }
-const createColumns = ({ updatePlane, deletePlane }) => {
+const createColumns = () => {
   return [
     {
       title: 'Identificador',
@@ -54,11 +54,11 @@ const createColumns = ({ updatePlane, deletePlane }) => {
     },
     {
       title: 'Origen',
-      key: 'origin'
+      key: 'origin.valor'
     },
     {
       title: 'Destino',
-      key: 'destination'
+      key: 'destination.valor'
     },
     {
       title: 'Hora salida',

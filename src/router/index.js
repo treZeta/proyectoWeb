@@ -29,12 +29,12 @@ const router = createRouter({
             {
               path: '/backoffice/aeropuertos/crear',
               name: 'backoffice/aeropuertos/crear',
-              component: import('../components/airports/CrudAirportComponent.vue')
+              component: import('../components/flights/CrudFlightsComponent.vue')
             },
             {
               path: '/backoffice/aeropuertos/editar/:id',
               name: '/backoffice/aeropuertos/editar',
-              component: import('../components/airports/CrudAirportComponent.vue')
+              component: import('../components/flights/CrudFlightsComponent.vue')
             }
           ]
         },

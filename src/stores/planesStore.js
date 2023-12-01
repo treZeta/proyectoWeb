@@ -6,12 +6,16 @@ export const usePlanesStore = defineStore('planesStore', () => {
   const planesModels = ref([
     {
       nombre: { valor: 'Boeing 737-400' },
+      label: 'Boeing 737-400',
+      value: 'Boeing 737-400',
       asientos: '90',
       imagen:
         'https://images.aircharterservice.com/global/aircraft-guide/group-charter/boeing-b737-400-800-900-1.jpg'
     },
     {
       nombre: { valor: 'Embraer 195-E2' },
+      label: 'Embraer 195-E2',
+      value: 'Embraer 195-E2',
       asientos: '40',
       imagen:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Wider%C3%B8e%2C_LN-WEA%2C_Embraer_E190-E2_%40_HEL.jpg/1200px-Wider%C3%B8e%2C_LN-WEA%2C_Embraer_E190-E2_%40_HEL.jpg'
@@ -51,12 +55,10 @@ export const usePlanesStore = defineStore('planesStore', () => {
       id: 'HK0471',
       modelo: { valor: 'Embraer 195-E2' }
     },
-    {
-      id: 'HK1323',
-      modelo: 'Boeing 737-400'
-    }
   ])
   const createPlane = (plane) => {
+    let model = planesModels.value.filter((pm) => pm.nombre.valor === plane.modelo)[0]
+    plane.modelo = model.nombre
     planes.value.push(plane)
   }
 

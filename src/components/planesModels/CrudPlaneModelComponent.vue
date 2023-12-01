@@ -11,8 +11,7 @@
         <n-input type="text" v-model:value="plane.imagen"></n-input>
       </n-form-item>
       <n-space justify="center">
-        <n-image width="600" height="300" lazy :src="plane.imagen">
-        </n-image>
+        <n-image width="600" height="300" lazy :src="plane.imagen"> </n-image>
       </n-space>
       <n-space style="margin-top: 2em" justify="end">
         <n-button secondary type="primary" @click="goBack()">Cancelar</n-button>
@@ -23,20 +22,12 @@
 </template>
 
 <script setup>
-import {
-  NForm,
-  NButton,
-  NInput,
-  NFormItem,
-  NCard,
-  NImage,
-  NSpace
-} from 'naive-ui'
+import { NForm, NButton, NInput, NFormItem, NCard, NImage, NSpace } from 'naive-ui'
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { usePlanesStore } from '@/stores/planesStore.js'
 
-const store = usePlanesStore();
+const store = usePlanesStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -44,28 +35,32 @@ const router = useRouter()
 const plane = ref({
   nombre: { valor: '' },
   asientos: null,
-  imagen: ''
+  imagen: '',
+  label: '',
+  value: ''
 })
 
 const editing = ref(false)
 
 const savePlaneModel = () => {
   if (!editing.value) {
+    plane.value.label = plane.value.nombre.valor
+    plane.value.value = plane.value.nombre.valor
     store.createPlaneModel(plane.value)
-    router.push("/backoffice/flota/modelos/lista")
+    router.push('/backoffice/flota/modelos/lista')
     return
   }
+  plane.value.label = plane.value.nombre.valor
+  plane.value.value = plane.value.nombre.valor
   store.editPlaneModel(plane.value)
-  router.push("/backoffice/flota/modelos/lista")
-
+  router.push('/backoffice/flota/modelos/lista')
 }
-
 
 if (route.name.includes('/editar')) {
   editing.value = true
 
   let planeModel = store.findPlaneModel(route.params.id)
-  console.log(planeModel);
+  console.log(planeModel)
   plane.value.nombre = planeModel.nombre
   plane.value.asientos = planeModel.asientos
   plane.value.imagen = planeModel.imagen
