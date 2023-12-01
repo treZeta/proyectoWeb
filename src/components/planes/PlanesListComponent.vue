@@ -13,7 +13,7 @@
         bordered
         :single-line="false"
         :columns="columns"
-        :data="data"
+        :data="store.planes"
         :pagination="pagination"
       />
     </n-card>
@@ -23,36 +23,12 @@
 <script setup>
 import { h } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
-import { NButton, NDataTable, NSpace, NCard, NLayout, NImage } from 'naive-ui'
+import { NButton, NDataTable, NSpace, NCard, NLayout } from 'naive-ui'
+import { usePlanesStore } from '@/stores/planesStore.js'
+
+const store = usePlanesStore();
 
 const router = useRouter()
-
-const data = [
-  {
-    id: 'HK9816',
-    modelo: 'Boeing 737-400'
-  },
-  {
-    id: 'HK1523X',
-    modelo: 'Boeing 737-400'
-  },
-  {
-    id: 'HK2208P',
-    modelo: 'Boeing 737-400'
-  },
-  {
-    id: 'HK0912',
-    modelo: 'Embraer 195-E2'
-  },
-  {
-    id: 'HK0471',
-    modelo: 'Embraer 195-E2'
-  },
-  {
-    id: 'HK1323',
-    modelo: 'Boeing 737-400'
-  }
-]
 
 const pagination = {
   pageSize: 10
@@ -78,7 +54,7 @@ const createColumns = ({ updatePlane, deletePlane }) => {
     },
     {
       title: 'Modelo',
-      key: 'modelo'
+      key: 'modelo.valor'
     },
     {
       title: 'Acciones',

@@ -3,7 +3,6 @@ import { ref } from 'vue'
 
 export const usePlanesStore = defineStore('planesStore', () => {
   //PlaneModel
-  const planesModelsSequence = ref(0)
   const planesModels = ref([
     {
       nombre: { valor: 'Boeing 737-400' },
@@ -19,15 +18,15 @@ export const usePlanesStore = defineStore('planesStore', () => {
     }
   ])
   const createPlaneModel = (planeModel) => {
-    planeModel.id = planesModelsSequence.value
     planesModels.value.push(planeModel)
-    planesModels.value++
   }
-  const editPlaneModel = (modifiedPlaneModel, planeModelId) => {
-    let airport = planesModels.value.filter((pm) => pm.id === planeModelId)[0]
-    airport.nombre = modifiedPlaneModel.nombre
+  const editPlaneModel = (modifiedPlaneModel) => {
+    let airport = planesModels.value.filter((pm) => pm.nombre.valor === modifiedPlaneModel.nombre.valor)[0]
     airport.asientos = modifiedPlaneModel.asientos
     airport.imagen = modifiedPlaneModel.imagen
+  }
+  const findPlaneModel = (planeModelId) => {
+    return planesModels.value.filter((pm) => pm.nombre.valor === planeModelId)[0]
   }
 
   //Plane
@@ -127,7 +126,6 @@ export const usePlanesStore = defineStore('planesStore', () => {
 
   return {
     planes,
-    planesModelsSequence,
     flightsSequence,
     flights,
     createFlight,
@@ -139,6 +137,7 @@ export const usePlanesStore = defineStore('planesStore', () => {
     editAirport,
     editPlaneModel,
     changeFlightDate,
-    findAirport
+    findAirport,
+    findPlaneModel
   }
 })

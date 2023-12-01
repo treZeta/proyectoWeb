@@ -1,22 +1,25 @@
 <template>
     <n-card embedded style="margin: 24px">
-      <n-form ref="formRef" :model="plane" :rules="rules">
-        <n-form-item path="nombre" label="Nombre">
-          <n-input v-model:value="plane.nombre" @keydown.enter.prevent />
+      <n-form ref="formRef" :model="airport" :rules="rules">
+        <n-form-item path="id" label="Id">
+          <n-input v-model:value="airport.id" @keydown.enter.prevent />
         </n-form-item>
-        <n-form-item path="capacidad" label="Capacidad">
-          <n-input v-model:value="plane.capacidad" type="number" @keydown.enter.prevent />
+        <n-form-item path="nombre" label="Nombre">
+          <n-input v-model:value="airport.nombre" @keydown.enter.prevent />
+        </n-form-item>
+        <n-form-item path="ubicacion" label="Ubicacion">
+          <n-input type="text" v-model:value="airport.ubicacion"></n-input>
         </n-form-item>
         <n-form-item path="imagen" label="Imagen">
-          <n-input type="text" v-model:value="plane.imagen"></n-input>
+          <n-input type="text" v-model:value="airport.imagen"></n-input>
         </n-form-item>
         <n-space justify="center">
-          <n-image width="600" height="300" lazy :src="plane.imagen">
+          <n-image width="600" height="300" alt="imagen de referencia no carga/ingresada" lazy :src="airport.imagen">
           </n-image>
         </n-space>
         <n-space style="margin-top: 2em" justify="end">
-          <n-button secondary type="primary" @click="goBack()">Cancelar</n-button>
-          <n-button type="primary">Guardar</n-button>
+          <n-button type="primary" @click="goBack()">Regresar</n-button>
+          <n-button type="success" @click="saveAirport()">Guardar</n-button>
         </n-space>
       </n-form>
     </n-card>
@@ -25,49 +28,62 @@
   <script setup>
   import {
     NForm,
-    NGrid,
     NButton,
     NInput,
     NFormItem,
-    NRow,
-    NCol,
     NCard,
     NImage,
-    NSkeleton,
     NSpace
   } from 'naive-ui'
   import { useRoute, useRouter } from 'vue-router'
-  import { ref } from 'vue'
-  
+  import {ref} from 'vue'
+  import {usePlanesStore} from "../../stores/planesStore"
+
+  const Store = usePlanesStore();
   const route = useRoute()
+  let processModified = false;
+  
   const router = useRouter()
-  
-  const plane = ref({
-    nombre: '',
-    capacidad: null,
-    imagen: ''
+  const airport = ref({
+    id: "",
+    nombre: "",
+    ubicacion: "",
+    imagen: ""
   })
-  
-  if (route.name.includes('update')) {
-  }
-  
   const goBack = () => {
     router.go(-1)
   }
   
+  if (route.name.includes('editar')) {
+    const airportId = route.params.id
+    const editAirport = Store.findAirport(airportId);
+    airport.value.id = editAirport.id.valor
+    airport.value.nombre = editAirport.nombre
+    airport.value.ubicacion = editAirport.ubicacion
+    airport.value.imagen = editAirport.imagen
+    processModified = true;
+  }
+
   const rules = {
-    plane: {
+    airport: {
+      id: [
+        {
+          required: true,
+          message: 'Ingrese el identificador del aeropuerto',
+          trigger:  ['input', 'blur']
+        }
+      ],
       nombre: [
         {
           required: true,
-          message: 'Ingresa un nombre para el modelo de avión',
-          trigger: 'blur'
+          message: 'Ingresa el nombre del aeropuerto',
+          trigger: ['input', 'blur']
         }
       ],
-      capacidad: [
+      ubicacion: [
         {
           required: true,
-          message: 'Ingresa la capacidad del modelo',
+          message: 'Ingresa la ubicación del aeropuerto',
           trigger: ['input', 'blur']
         }
       ],
@@ -78,14 +94,26 @@
           trigger: ['input', 'blur']
         }
       ]
-    },
-    phone: {
-      required: true,
-      message: 'Please input your number',
-      trigger: ['input']
     }
+  }
+
+  const saveAirport = () =>{
+    const newAirport = {id: {valor: airport.value.id},
+      nombre: airport.value.nombre,
+      ubicacion: airport.value.ubicacion,
+      imagen: airport.value.imagen
+    };
+    if(processModified){
+      Store.editAirport(newAirport)
+    }else{
+      Store.addAirport(newAirport)
+    }
+    airport.value.id = ""
+    airport.value.nombre = ""
+    airport.value.ubicacion = ""
+    airport.value.imagen = ""
+   
   }
   </script>
   
   <style></style>
-  

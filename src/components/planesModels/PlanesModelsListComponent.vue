@@ -13,7 +13,7 @@
         bordered
         :single-line="false"
         :columns="columns"
-        :data="store.planeModels"
+        :data="store.planesModels"
         :pagination="pagination"
       />
     </n-card>
@@ -24,9 +24,9 @@
 import { h } from 'vue';
 import { RouterLink, useRouter } from 'vue-router'
 import { NButton, NDataTable, NSpace, NCard, NLayout, NImage } from 'naive-ui'
-import { useCounterStore } from '@/stores/planesStore.js'
+import { usePlanesStore } from '@/stores/planesStore.js'
 
-const store = useCounterStore();
+const store = usePlanesStore();
 
 const router = useRouter();
 
@@ -50,7 +50,7 @@ const createColumns = () => {
   return [
     {
       title: 'Nombre',
-      key: 'nombre'
+      key: 'nombre.valor'
     },
     {
       title: 'Asientos',
@@ -74,7 +74,7 @@ const createColumns = () => {
           h(
             RouterLink,
             {
-              to: 'backoffice/flota/modelos/crear'
+              to: `/backoffice/flota/modelos/editar/${row.nombre.valor}`
             },
             [
               h(
